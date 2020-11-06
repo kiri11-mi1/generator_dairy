@@ -4,27 +4,8 @@ import re
 
 
 class Parser:
+    '''Парсер расписания СибГУ'''
 
-    def __init__(self):
-        self.struct = {
-            'week_1': [
-                'monday',
-                'tuesday',
-                'wednesday',
-                'thursday',
-                'friday',
-                'saturday',
-            ],
-            'week_2': [
-                'monday',
-                'tuesday',
-                'wednesday',
-                'thursday',
-                'friday',
-                'saturday',
-            ]
-        }
-    
     def get_day_timetable(self, numb_week, day, id):
         response = requests.get(
             f'https://timetable.pallada.sibsau.ru/timetable/group/{id}'
@@ -52,10 +33,8 @@ class Parser:
 
     def get_all_names_subjects(self, id):
         subjects = []
-
         for numb_week in range(1, 3):
-            days = self.struct[f'week_{numb_week}']
-            for day in days:
+            for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']:
                 day_timetable = self.get_day_timetable(numb_week, day, id)
                 if self.is_weekend(day_timetable):
                     continue
@@ -63,5 +42,4 @@ class Parser:
                 for line in day_timetable[0].find_all('div', {'class': 'line'}):
                     for sub in self.get_name_subjects(line):
                         subjects.append(sub.capitalize())
-
         return set(subjects)
