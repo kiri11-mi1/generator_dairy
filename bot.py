@@ -2,6 +2,7 @@ import requests
 
 
 class Bot:
+    '''Бот с базовым функционалом'''
 
     def __init__(self, token, key):
         self.api_token = token
