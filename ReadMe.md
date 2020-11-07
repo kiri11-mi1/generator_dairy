@@ -20,14 +20,14 @@ A: Автоматизировать процесс создания списко
     <li style="list-style-type: none;">🔥 Скачайте pip для Python3</li>
     <li style="list-style-type: none;">🔥 Загрузите репозиторий</li>
     <li style="list-style-type: none;">🔥 Перейдите в корневую директорию загруженного репозитория</li>
-    <li style="list-style-type: none;">🔥 Напишите комманду ***pip install -r requirements.txt***</li>
+    <li style="list-style-type: none;">🔥 Напишите комманду <i>pip install -r requirements.txt</i></li>
 </ul>
 
-  🔥 Установите интерпритатор Python3
-  🔥 Скачайте pip для Python3
-  🔥 Загрузите репозиторий
-  🔥 Перейдите в корневую директорию загруженного репозитория
-  🔥 Напишите комманду ***pip install -r requirements.txt***
+  🔥. Установите интерпритатор Python3
+  🔥. Скачайте pip для Python3
+  🔥. Загрузите репозиторий
+  🔥. Перейдите в корневую директорию загруженного репозитория
+  🔥. Напишите комманду ***pip install -r requirements.txt***
 
 <h1>💻 Настройка генератора</h1>
 
