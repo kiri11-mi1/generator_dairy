@@ -31,7 +31,47 @@ class Parser:
         return result
 
 
-    def get_all_names_subjects(self, id):
+    def get_teachers(self, line):
+        result = []
+        for sub_subject in self.get_subjects(line):
+            result.append(sub_subject.find('a').text)
+        return result
+    
+    
+    def get_proffesor_url(self, line):
+        result = []
+        for sub_subject in self.get_subjects(line):
+            result.append(sub_subject.find('a')['href'])
+        return result
+
+
+    def merge_similar_subjects(self, subjects):
+        for i in range(len(subjects)):
+            for j in range(len(subjects)):
+                if subjects[i]['name_subject'] == subjects[j]['name_subject'] and i != j:
+                    subjects[i]['teachers'].append(subjects[j]['teachers'][0])
+        return self.delete_repeat_subjects(subjects)
+
+
+    def delete_repeat_proffesors(self, proffesors):
+        used = []
+        for p in proffesors:
+            if p not in used:
+                used.append(p)
+        return used
+
+
+    def delete_repeat_subjects(self, subjects):
+        used = []
+        for sub in subjects:
+            sub['teachers'] = self.delete_repeat_proffesors(
+                                    sorted(sub['teachers'], key=lambda k: k['name']))
+            if sub not in used:
+                used.append(sub)
+        return used
+        
+
+    def get_subjects_info(self, id):
         subjects = []
         for numb_week in range(1, 3):
             for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']:
@@ -40,6 +80,14 @@ class Parser:
                     continue
                 
                 for line in day_timetable[0].find_all('div', {'class': 'line'}):
-                    for sub in self.get_name_subjects(line):
-                        subjects.append(sub.capitalize())
-        return set(subjects)
+                    for name_sub, name_prof, url in zip(self.get_name_subjects(line),
+                                                   self.get_teachers(line),
+                                                   self.get_proffesor_url(line)):
+                        subjects.append({
+                            'name_subject': name_sub.capitalize(),
+                            'teachers': [{
+                                'name': name_prof,
+                                'url': 'https://timetable.pallada.sibsau.ru' + url
+                            }]
+                        })
+        return self.merge_similar_subjects(subjects)
